@@ -1,3 +1,4 @@
+<?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // استقبل البيانات كمصفوفة من الـ POST
   $botToken = $_POST['botToken'];
